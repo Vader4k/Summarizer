@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react"
 import { copy, linkIcon, loader, tick } from '../assets'
+import { useLazyGetSummaryQuery } from "../Redux/article"
 
 const Demo = () => {
+
+    const [ getSummary , {error, isFetching }] = useLazyGetSummaryQuery();
 
     const [ article, setArticle ] = useState({
         url: '',
@@ -10,7 +13,7 @@ const Demo = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault
-        alert('submitted')
+        const { data } = await getSummary({ articleUrl: article.url})
     }
   return (
     <section className="mt-16 w-full max-w-xl">
