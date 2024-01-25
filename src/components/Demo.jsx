@@ -12,8 +12,15 @@ const Demo = () => {
     })
 
     const handleSubmit = async (e) => {
-        e.preventDefault
+        e.preventDefault()
         const { data } = await getSummary({ articleUrl: article.url})
+
+        if(data?.summary) {
+            const newArticle = { ...article, summary: data.summary }
+
+            setArticle(newArticle)
+            console.log(newArticle)
+        }
     }
   return (
     <section className="mt-16 w-full max-w-xl">
