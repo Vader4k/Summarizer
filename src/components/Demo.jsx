@@ -13,6 +13,8 @@ const Demo = () => {
     // this states is used to set and get the article search history (all url entered) as an array
     const [ allArticles, setAllArticles ] = useState([])
 
+    const [ copied, setCopied ] = useState("")
+
     // a handle submit button function that performs the api call from the react redux and fertches the data
     const handleSubmit = async (e) => {
         e.preventDefault() //prevents the page from refreshing.
@@ -30,7 +32,7 @@ const Demo = () => {
             setArticle(newArticle)
             setAllArticles(updatedAllArticles)
             console.log(newArticle)
-            localStorage.setItem('article', JSON.stringify(updatedAllArticles))
+            localStorage.setItem('articles', JSON.stringify(updatedAllArticles))
         }
     }
 
@@ -39,13 +41,20 @@ const Demo = () => {
     //so we want to store our updatedAllArticle in our local storage by using useEffect.
     useEffect(()=> {
         const articlesFromLocalStorage = JSON.parse(
-            localStorage.getItem('article')
+            localStorage.getItem('articles')
         )
         if(articlesFromLocalStorage){
             setAllArticles(articlesFromLocalStorage)
             //local storage can only contain strings
         }
     }, [])
+
+    //now to set a copy function that copies a history link when clicked
+    const handleCopy = (copyUrl) => {
+        setCopied(copyUrl);
+        navigator.clipboard.writeText(copyUrl)
+        setTimeout(() => setCopied(false), 3000)
+    }
   return (
     <section className="mt-16 w-full max-w-xl">
         {/* search */}
@@ -89,9 +98,11 @@ const Demo = () => {
                     >
                         <div className="copy_btn">
                             <img 
-                                src={copy} 
+                                //a conditional statement that checks if the handleCopy function is clicked and shows a different picture depending on the result
+                                src={ copied === item.url ? tick : copy } 
                                 alt="copy_icon" 
                                 className="w-[40%] h-[40%] object-contain"
+                                onClick={()=> handleCopy(item.url)}
                             />
                         </div>
                         <p className="flex-1 font-satoshi text-blue-700 font-medium text-sm truncate">
