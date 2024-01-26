@@ -11,17 +11,34 @@ const Demo = () => {
         summary: '',
     })
 
+    const [ allArticles, setAllArticles ] = useState({})
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         const { data }  = await getSummary({ articleUrl: article.url})
 
         if(data?.summary) {
             const newArticle = { ...article, summary: data.summary }
+            const updatedAllArticles = [newArticle, ...allArticles]
 
             setArticle(newArticle)
+            setAllArticles(updatedAllArticles)
             console.log(newArticle)
+            localStorage.setItem('article', JSON.stringify(updatedAllArticles))
         }
     }
+
+    //now that we have the article search history, we want to store it so even if we restart the page,
+    //we wont lose our search history.
+    //so we want to store our updatedAllArticle in our local storage by using useEffect.
+    useEffect(()=> {
+        const articlesFromLocalStorage = JSON.parse(
+            localStorage.getItem('article')
+        )
+        if(articlesFromLocalStorage){
+            setAllArticles(articlesFromLocalStorage)
+        }
+    }, [])
   return (
     <section className="mt-16 w-full max-w-xl">
         {/* search */}
