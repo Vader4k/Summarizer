@@ -10,8 +10,8 @@ const Demo = () => {
         url: '',
         summary: '',
     })
-    // this states is used to set and get the article search history (all url entered)
-    const [ allArticles, setAllArticles ] = useState({})
+    // this states is used to set and get the article search history (all url entered) as an array
+    const [ allArticles, setAllArticles ] = useState([])
 
     // a handle submit button function that performs the api call from the react redux and fertches the data
     const handleSubmit = async (e) => {
@@ -80,6 +80,26 @@ const Demo = () => {
             </form>
 
             {/* browser url history */}
+            <div className="flex flex-col gap-1 max-h-60 overflow-y-auto">
+                {allArticles.map((item, index) => (
+                    <div 
+                        key={`link-${index}`}
+                        onClick={()=> setArticle(item)}
+                        className="link_card"
+                    >
+                        <div className="copy_btn">
+                            <img 
+                                src={copy} 
+                                alt="copy_icon" 
+                                className="w-[40%] h-[40%] object-contain"
+                            />
+                        </div>
+                        <p>
+                            {item.url}
+                        </p>
+                    </div>
+                ))}
+            </div>
         </div>
 
         {/* display results */}
