@@ -3,22 +3,28 @@ import { copy, linkIcon, loader, tick } from '../assets'
 import { useLazyGetSummaryQuery } from "../Redux/article"
 
 const Demo = () => {
-
+    // calling my get summary endpoint using lazy keyword to get my summary after the submit button is clicked.
     const [ getSummary , {error, isFetching }] = useLazyGetSummaryQuery();
-
+    // getting and setting my article states
     const [ article, setArticle ] = useState({
         url: '',
         summary: '',
     })
-
+    // this states is used to set and get the article search history (all url entered)
     const [ allArticles, setAllArticles ] = useState({})
 
+    // a handle submit button function that performs the api call from the react redux and fertches the data
     const handleSubmit = async (e) => {
-        e.preventDefault()
-        const { data }  = await getSummary({ articleUrl: article.url})
+        e.preventDefault() //prevents the page from refreshing.
+
+        //this code retrieves the summary data from the given article URL using the getSummary function.
+        const { data } = await getSummary({ articleUrl: article.url });
 
         if(data?.summary) {
+            //if there is a summary, create a new article and spread the old article then set summary to the data
             const newArticle = { ...article, summary: data.summary }
+            //now to save the search history which is the artile url
+            //spread all articles into a new array and push the newArticle into it too
             const updatedAllArticles = [newArticle, ...allArticles]
 
             setArticle(newArticle)
@@ -37,6 +43,7 @@ const Demo = () => {
         )
         if(articlesFromLocalStorage){
             setAllArticles(articlesFromLocalStorage)
+            //local storage can only contain strings
         }
     }, [])
   return (
