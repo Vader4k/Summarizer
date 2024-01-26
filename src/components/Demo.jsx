@@ -13,7 +13,7 @@ const Demo = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const { data } = await getSummary({ articleUrl: article.url})
+        const { data }  = await getSummary({ articleUrl: article.url})
 
         if(data?.summary) {
             const newArticle = { ...article, summary: data.summary }
