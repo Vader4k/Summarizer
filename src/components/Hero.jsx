@@ -2,14 +2,14 @@ import { logo } from '../assets'
 
 const Hero = () => {
   return (
-    <div className='w-full flex justify-center items-center flex-col'>
-        <nav className='flex justify-between items-center w-full mb-10 pt-3'>
+    <div className='flex flex-col items-center justify-center w-full'>
+        <nav className='flex items-center justify-between w-full pt-3 mb-10'>
             <img src={logo} alt='summary_logo'
-            className='w-28 object-contain'/>
+            className='object-contain w-28'/>
 
             <button 
                 type='button' 
-                onClick={()=> window.open('https://Vader2K')}
+                onClick={()=> window.open('https://Vader4K')}
                 className='black_btn'>
                 Github
             </button>
